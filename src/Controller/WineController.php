@@ -27,12 +27,24 @@ class WineController extends AbstractController
         ]);
     }
 
+    #[Route('/me', name: 'app_wine_owner', methods: ['GET'])]
+    public function my_wines(EntityManagerInterface $entityManager): Response
+    {
+        // $owner_wines = $entityManager->getRepository(User::class)->findOneBy(['user' => $userId, 'wine' => $wineId]);
+        $owner_wines = $this->getUser()->getWines();
+
+        return $this->render('wine/owner.html.twig', [
+            'wines' => $owner_wines,
+        ]);
+    }
+
     #[Route('/new', name: 'app_wine_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $wine = new Wine();
         $form = $this->createForm(WineType::class, $wine);
         $form->handleRequest($request);
+        $wine->setOwner($this->getUser());
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($wine);
@@ -130,4 +142,12 @@ class WineController extends AbstractController
 
         return $this->redirectToRoute('app_wine_show', ['id' => $wine->getId()]);
     }
+
+    // #[Route('/me', name: 'app_wine_user', methods: ['GET'])]
+    // public function user_wines(): Response
+    // {
+    //     // return $this->render('user_wine.html.twig', [
+    //     //     // 'wines' => $this->getUser()->getWines(),
+    //     // ]);
+    // }
 }

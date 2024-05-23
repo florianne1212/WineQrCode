@@ -1,0 +1,31 @@
+.wine-wrapper {
+    h1{
+        margin: auto;
+        margin-top: 20px;
+        width: 50%;
+        padding: 10px;
+        text-align: center;
+    }
+}
+
+.wine-list {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: minmax(100px, auto);
+  gap: 8px;
+
+}
+
+.wine-item {
+  grid-column: span 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  .wine-image {
+    width: 90%;
+    object-fit: contain;
+    height: 200px;
+  }
+}

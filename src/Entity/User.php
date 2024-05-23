@@ -47,10 +47,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(mappedBy: 'User', cascade: ['persist', 'remove'])]
     private ?Winery $winery = null;
 
+    /**
+     * @var Collection<int, Wine>
+     */
+    #[ORM\OneToMany(targetEntity: Wine::class, mappedBy: 'owner')]
+    private Collection $wines;
+
 
     public function __construct()
     {
         $this->userFavoriteWines = new ArrayCollection();
+        $this->wines = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -192,6 +199,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $this->winery = $winery;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Wine>
+     */
+    public function getWines(): Collection
+    {
+        return $this->wines;
+    }
+
+    public function addWine(Wine $wine): static
+    {
+        if (!$this->wines->contains($wine)) {
+            $this->wines->add($wine);
+            $wine->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeWine(Wine $wine): static
+    {
+        if ($this->wines->removeElement($wine)) {
+            // set the owning side to null (unless already changed)
+            if ($wine->getOwner() === $this) {
+                $wine->setOwner(null);
+            }
+        }
 
         return $this;
     }

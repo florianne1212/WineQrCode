@@ -43,6 +43,10 @@ class Wine
     #[ORM\ManyToOne(inversedBy: 'Wine')]
     private ?Winery $winery = null;
 
+    #[ORM\ManyToOne(inversedBy: 'wines')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $owner = null;
+
 
     public function __construct()
     {
@@ -146,6 +150,18 @@ class Wine
     public function setWinery(?Winery $winery): static
     {
         $this->winery = $winery;
+
+        return $this;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): static
+    {
+        $this->owner = $owner;
 
         return $this;
     }
