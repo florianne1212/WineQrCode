@@ -2,7 +2,10 @@
 
 namespace App\Form;
 
+use App\Entity\User;
 use App\Entity\Wine;
+use App\Entity\Winery;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -16,6 +19,9 @@ class WineType extends AbstractType
             ->add('region')
             ->add('alcoholContent')
             ->add('description')
+            ->add('grapes')
+            ->add('year')
+            ->add('ingredients')
         ;
     }
 

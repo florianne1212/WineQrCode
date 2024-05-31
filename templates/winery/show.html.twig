@@ -10,8 +10,11 @@
 
 <div class="example-wrapper">
     <h1>Winery</h1>
-    <h2>name {{ winery.name }}</h2>
-    <p>{{dump(id)}}</p>
+    <h2>name {{ winery.name ?? 'no name yet' }}</h2>
+    <p>description {{ winery.description ?? 'no description yet' }}</p>
+    <p>number of employees {{ winery.numberOfEmployees ?? 'no number of employees yet' }}</p>
+    {% if isowner %}
      <a  href="/winery/{{winery.id}}/edit">edit my winery</a>
+    {% endif %}
 </div>
 {% endblock %}

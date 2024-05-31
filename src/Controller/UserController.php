@@ -26,9 +26,6 @@ class UserController extends AbstractController
         $entityManager = $this->doctrine->getManager();
         $id = $this->getUser()->getId();
         $winery = $this->getUser()->getWinery();
-        // $winery = $entityManager->getRepository(Winery::class)->findOneBy(['user' => $id]);
-
-        //    $isPro = $this->getUser()->getRoles()->contains('ROLE_IS_PRO');
         }
         return $this->render('user/index.html.twig', [
             'controller_name' => 'UserController',

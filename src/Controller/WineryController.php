@@ -23,35 +23,18 @@ class WineryController extends AbstractController
         ]);
     }
 
-    #[Route('/{_id}', name: 'app_winery_show')]
+    #[Route('/{id}', name: 'app_winery_show')]
     public function show(Winery $winery, UrlGeneratorInterface $urlGenerator): Response
     {
-        $winery = $this->getUser()->getWinery();
+        $isowner = $this->getUser()->getWinery() === $winery;
         $id = $winery->getId();
         return $this->render('winery/show.html.twig', [
             'winery' => $winery,
             'id' => $id,
+            'isowner' => $isowner,
         ]);
     }
 
-    // #[Route('/{_id}/edit', name: 'app_winery_edit')]
-    // public function edit(Request $request, Winery $winery, EntityManagerInterface $entityManager): Response
-    // {
-    //     $form = $this->createForm(WineryType::class, $winery);
-    //     $form->handleRequest($request);
-
-
-    //     if ($form->isSubmitted() && $form->isValid()) {
-    //         $entityManager->flush();
-
-    //         // return $this->redirectToRoute('app_user', [], Response::HTTP_SEE_OTHER);
-    //     }
-
-    //     return $this->render('winery/edit.html.twig', [
-    //         'winery' => $winery,
-    //         'form' => $form,
-    //     ]);
-    // }
 
     #[Route('/{id}/edit', name: 'app_winery_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Winery $winery, EntityManagerInterface $entityManager): Response
@@ -62,7 +45,7 @@ class WineryController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_winery_show', ['_id' => $winery->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_winery_show', ['id' => $winery->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('winery/edit.html.twig', [
@@ -70,22 +53,4 @@ class WineryController extends AbstractController
             'form' => $form,
         ]);
     }
-
-    // #[Route('/{id}/edit', name: 'app_wine_edit', methods: ['GET', 'POST'])]
-    // public function edit(Request $request, Wine $wine, EntityManagerInterface $entityManager): Response
-    // {
-    //     $form = $this->createForm(WineType::class, $wine);
-    //     $form->handleRequest($request);
-
-    //     if ($form->isSubmitted() && $form->isValid()) {
-    //         $entityManager->flush();
-
-    //         return $this->redirectToRoute('app_wine_index', [], Response::HTTP_SEE_OTHER);
-    //     }
-
-    //     return $this->render('wine/edit.html.twig', [
-    //         'wine' => $wine,
-    //         'form' => $form,
-    //     ]);
-    // }
 }

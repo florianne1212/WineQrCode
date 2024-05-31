@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Wine;
+use App\Entity\Winery;
 use App\Form\WineType;
 use App\Entity\UserFavoriteWine;
 use App\Repository\WineRepository;
@@ -45,6 +46,7 @@ class WineController extends AbstractController
         $form = $this->createForm(WineType::class, $wine);
         $form->handleRequest($request);
         $wine->setOwner($this->getUser());
+        $wine->setWinery($this->getUser()->getWinery());
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($wine);
@@ -75,13 +77,17 @@ class WineController extends AbstractController
         $qrCode = $response->getContent();
         if($this->getUser())
             $isFavorite = $this->getUser()->isWineFavoritedByUser($wine);
+        $winery = $wine->getWinery();
+        $isowner = $wine->getOwner() === $this->getUser();
 
         return $this->render('wine/show.html.twig', [
             'wine' => $wine,
             'qrCode' => $qrCode,
             'wineUrl' => $wineUrl,
-            'isFavorite' => $isFavorite ?? false,
+            'isFavorite' => $isFavorite,
             'result' => null,
+            'winery' => $winery,
+            'isowner' => $isowner,
         ]);
     }
 
@@ -111,7 +117,7 @@ class WineController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_wine_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_wine_owner', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{id}/favorite/add', name: 'app_add_wine_favorite', methods: ['POST'])]

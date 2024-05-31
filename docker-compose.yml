@@ -12,10 +12,6 @@ services:
       MYSQL_DATABASE: db
       MYSQL_USER: wordpress
       MYSQL_PASSWORD: wordpress
-    # healthcheck:
-    #   test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost", "-uroot", "-proot"]
-    #   timeout: 20s
-    #   retries: 10
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -40,9 +36,6 @@ services:
       MYSQL_USER: wordpress
       MYSQL_PASSWORD: wordpress
       MYSQL_ROOT_USER: root
-      MYSQL_ROOT_PASSWORD: password
-    # depends_on:
-    #     mysql:
-    #       condition: service_healthy
+      MYSQL_ROOT_PASSWORD: MYSQL_PASSWORD
 volumes:
   db_data:
