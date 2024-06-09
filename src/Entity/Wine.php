@@ -31,14 +31,14 @@ class Wine
     #[ORM\OneToMany(targetEntity: UserFavoriteWine::class, mappedBy: 'wine')]
     private $userFavoriteWine;
 
-    #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
-    private ?array $grapes = null;
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $grapes = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $year = null;
 
-    #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
-    private ?array $ingredients = null;
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $ingredients = null;
 
     #[ORM\ManyToOne(inversedBy: 'Wine')]
     private ?Winery $winery = null;
@@ -46,6 +46,9 @@ class Wine
     #[ORM\ManyToOne(inversedBy: 'wines')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $owner = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $ImageFileName = null;
 
 
     public function __construct()
@@ -106,12 +109,12 @@ class Wine
         return $this;
     }
 
-    public function getGrapes(): ?array
+    public function getGrapes(): ?string
     {
         return $this->grapes;
     }
 
-    public function setGrapes(?array $grapes): static
+    public function setGrapes(?string $grapes): static
     {
         $this->grapes = $grapes;
 
@@ -130,12 +133,12 @@ class Wine
         return $this;
     }
 
-    public function getIngredients(): ?array
+    public function getIngredients(): ?string
     {
         return $this->ingredients;
     }
 
-    public function setIngredients(?array $ingredients): static
+    public function setIngredients(?string $ingredients): static
     {
         $this->ingredients = $ingredients;
 
@@ -162,6 +165,18 @@ class Wine
     public function setOwner(?User $owner): static
     {
         $this->owner = $owner;
+
+        return $this;
+    }
+
+    public function getImageFileName(): ?string
+    {
+        return $this->ImageFileName;
+    }
+
+    public function setImageFileName(?string $ImageFileName): static
+    {
+        $this->ImageFileName = $ImageFileName;
 
         return $this;
     }

@@ -27,12 +27,12 @@ class UserFavoriteWineController extends AbstractController
         $favorite = $this->getUser()->getWinesFavoritedByUser();
 
         return $this->render('user_favorite_wine/index.html.twig', [
-            'controller_name' => 'UserFavoriteWineController',
             'favorite' => $favorite,
         ]);
     }
 
-    public function removeWineFromFavorite( $userId, $wineId): Response
+
+    public function removeWineFromFavorite($userId, $wineId): Response
     {
         $entityManager = $this->doctrine->getManager();
         $favoriteWine = $entityManager->getRepository(UserFavoriteWine::class)->findOneBy(['user' => $userId, 'wine' => $wineId]);
@@ -44,5 +44,20 @@ class UserFavoriteWineController extends AbstractController
         } else {
             return new Response('Favorite wine relation not found', Response::HTTP_NOT_FOUND);
         }
+    }
+
+    public function addWineToFavorite(Wine $wine): Response
+    {
+        $entityManager = $this->doctrine->getManager();
+        $userFavoriteWine = new UserFavoriteWine();
+        $userFavoriteWine->setCreatedAt(new \DateTimeImmutable());
+        $userFavoriteWine->setUser($this->getUser());
+        $userFavoriteWine->setWine($wine);
+
+        $entityManager->persist($userFavoriteWine);
+
+        $entityManager->flush();
+
+        return new Response('Favorite wine relation created successfully');
     }
 }

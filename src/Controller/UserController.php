@@ -21,15 +21,14 @@ class UserController extends AbstractController
     public function index(): Response
     {
         if ($this->getUser()) {
-            $isPro = in_array('ROLE_IS_PRO', $this->getUser()->getRoles());
+            $isProducer = in_array('ROLE_IS_PRO', $this->getUser()->getRoles());
 
         $entityManager = $this->doctrine->getManager();
         $id = $this->getUser()->getId();
         $winery = $this->getUser()->getWinery();
         }
         return $this->render('user/index.html.twig', [
-            'controller_name' => 'UserController',
-            'isPro' => $isPro,
+            'isProducer' => $isProducer,
             'winery' => $winery,
             'id' => $id,
         ]);

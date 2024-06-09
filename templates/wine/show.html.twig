@@ -5,47 +5,22 @@
 {% block body %}
 <div class="wine-wrapper-id">
     <h1>Wine</h1>
+    <h2>{{ wine.name }}</h2>
 
 <div class="wine-item">
  <div class="column">
-    <div>
-    <table class="table">
-
-        <tbody>
-            <tr>
-                <td>{{ wine.name }}</td>
-            </tr>
-            <tr>
-                <th>Year :</th>
-                <td>{{ wine.year }}</td>
-            </tr>
-            <tr>
-                <th>Region : </th>
-                <td>{{ wine.region }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ wine.description }}</td>
-            </tr>
-            <tr>
-                <th>Grapes</th>
-                    {% for ingredient in wine.grapes %}
-                        <li>{{ ingredient }}</li>
-                    {% endfor %}
-            </tr>
-            <tr>
-                <th>Ingredients</th>
-                   {% for ingredient in wine.ingredients %}
-                        <li>{{ ingredient }}</li>
-                    {% endfor %}
-            </tr>
-            <tr>
-                <th>AlcoholContent</th>
-                <td>{{ wine.alcoholContent }}</td>
-            </tr>
-
-        </tbody>
-    </table>
+ <div class="row">
+    <div class="column-ingredients">
+        <div>Year: {{ wine.year }}</div>
+        <div>Region: {{ wine.region }}</div>
+        <div>Description: {{wine.description }}</div>
+        <div>Grapes: {{wine.grapes }}</div>
+        <div>Ingredients: {{wine.ingredients }}</div>
+        <div>AlcoholContent: {{wine.alcoholContent }}</div>
+     </div>
+        {% if wine.ImageFileName %}
+    <img class="wine-image" src="{{ asset('uploads/wine_image/' ~ wine.ImageFileName) }}"/>
+    {% endif %}
     </div>
        <div class="column">
      {% if isowner %}
@@ -59,7 +34,7 @@
             </button>
         </form>
     {% endif %}
-        {% if (app.user) and (isFavorite) and not ("ROLE_IS_PRO" in app.user.roles) %}
+    {% if (app.user) and (isFavorite) and not ("ROLE_IS_PRO" in app.user.roles) %}
         <p>Already in Favorites</p>
         <form method="post" action="{{ path('app_remove_wine_favorite', {'id': wine.id}) }}">
             <button type="submit">

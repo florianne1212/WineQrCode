@@ -1,0 +1,35 @@
+.winery-wrapper {
+    h1{
+        margin: auto;
+        margin-top: 20px;
+        width: 50%;
+        padding: 10px;
+        text-align: center;
+    }
+}
+
+.winery-form {
+    width: 100%;
+    margin: auto;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    .form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    } 
+}
+
+.winery-description {
+    width: 100%;
+    margin: auto;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}

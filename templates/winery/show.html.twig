@@ -8,13 +8,18 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-<div class="example-wrapper">
+<div class="winery-wrapper">
     <h1>Winery</h1>
-    <h2>name {{ winery.name ?? 'no name yet' }}</h2>
-    <p>description {{ winery.description ?? 'no description yet' }}</p>
-    <p>number of employees {{ winery.numberOfEmployees ?? 'no number of employees yet' }}</p>
+    <div class="winery-description">
+    <h2>Name : {{ winery.name ?? 'no name yet' }}</h2>
+    <p>Description : {{ winery.description ?? 'no description yet' }}</p>
+    <p>Number of employees : {{ winery.numberOfEmployees ?? 'no number of employees yet' }}</p>
+    {% if winery.ImageFileName %}
+    <img class="winery-image" src="{{ asset('uploads/winery_image/' ~ winery.ImageFileName) }}"/>
+    {% endif %}
     {% if isowner %}
      <a  href="/winery/{{winery.id}}/edit">edit my winery</a>
     {% endif %}
+    </div>
 </div>
 {% endblock %}

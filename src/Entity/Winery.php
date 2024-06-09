@@ -35,6 +35,9 @@ class Winery
     #[ORM\JoinColumn(nullable: false)]
     private ?User $User = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $ImageFileName = null;
+
     public function __construct()
     {
         $this->Wine = new ArrayCollection();
@@ -120,6 +123,18 @@ class Winery
     public function setUser(User $User): static
     {
         $this->User = $User;
+
+        return $this;
+    }
+
+    public function getImageFileName(): ?string
+    {
+        return $this->ImageFileName;
+    }
+
+    public function setImageFileName(?string $ImageFileName): static
+    {
+        $this->ImageFileName = $ImageFileName;
 
         return $this;
     }

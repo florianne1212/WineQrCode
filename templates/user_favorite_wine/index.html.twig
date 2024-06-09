@@ -9,19 +9,21 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-    <p>{{dump(favorite)}}</p>
+    <h1>Your favorites wine</h1>
 
     {% for wine in favorite %}
-        <p>{{ wine.wine.name }}</p>
-        {# Access individual properties as needed #}
-        {# {{ wine.}} #}
+                <div class="wine-item">
+                <h2>{{ wine.wine.name }}</h2>
+                {% if wine.wine.ImageFileName %}
+                    <img class="wine-image" src="{{ asset('uploads/wine_image/' ~ wine.wine.ImageFileName) }}"/>
+                {% else %}
+                    <img class="wine-image" src="/image/vin.jpeg"/>
+                {% endif %}
+                <p>{{ wine.wine.region }}</p>
+                <td>
+                    <a href="{{ path('app_wine_show', {'id': wine.wine.id}) }}">show</a>
+                </td>
+            </div>
     {% endfor %}
-        
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/Users/florianne/nfe114/src/Controller/UserFavoriteWineController.php</code></li>
-        <li>Your template at <code>/Users/florianne/nfe114/templates/user_favorite_wine/index.html.twig</code></li>
-    </ul>
 </div>
 {% endblock %}

@@ -31,8 +31,7 @@ class RegistrationController extends AbstractController
             );
 
             // Check if the isPro checkbox is checked
-            if ($form->get('isPro')->getData()) {
-                // Add the USER_ADMIN role to the user
+            if ($form->get('isProducer')->getData()) {
                 $user->setRoles(['ROLE_IS_PRO']);
                 $winery = new Winery();
                 $winery->setUser($user);

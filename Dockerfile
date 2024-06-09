@@ -19,6 +19,9 @@ COPY docker/entrypoint.sh /entrypoint.sh
 COPY . /var/www
  
 WORKDIR /var/www
+
+RUN chown -R www-data:www-data /var/www
+RUN chmod -R 755 /var/www
  
 RUN chmod +x /entrypoint.sh
  

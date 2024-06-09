@@ -9,13 +9,12 @@ use Endroid\QrCode\Builder\BuilderInterface;
 
 class QrCodeController extends AbstractController
 {
-    public function createQrCode(BuilderInterface $qrBuilder, string $data): Response
+    public function createQrCode(BuilderInterface $qrBuilder, string $url): Response
     {
-        // $data = $request->query->get('data');
         $qrCode = $qrBuilder
             ->size(400)
             ->margin(20)
-            ->data($data)
+            ->data($url)
             ->build();
         $base64 = $qrCode->getDataUri();
 

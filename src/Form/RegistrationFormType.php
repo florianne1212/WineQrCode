@@ -27,7 +27,7 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('isPro', CheckboxType::class, [
+            ->add('isProducer', CheckboxType::class, [
                 'mapped' => false,
                 'required' => false,
             ])

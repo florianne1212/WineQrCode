@@ -5,22 +5,28 @@
 {% block body %}
 <div class="wine-wrapper">
     <h1>All the Wines</h1>
+    {% if (app.user) and ("ROLE_IS_PRO" in app.user.roles) %}
+    <div class="wine-button">
+    <a href="{{ path('app_wine_new') }}">Create new</a>
+    </div>
+    {% endif %}
         <div class="wine-list">
         {% for wine in wines %}
             <div class="wine-item">
                 <h2>{{ wine.name }}</h2>
-                <img class="wine-image" src="/image/vin.jpeg"/>
+                {% if wine.ImageFileName %}
+                    <img class="wine-image" src="{{ asset('uploads/wine_image/' ~ wine.ImageFileName) }}"/>
+                {% else %}
+                    <img class="wine-image" src="/image/vin.jpeg"/>
+                {% endif %}
                 <p>{{ wine.region }}</p>
                 <td>
                     <a href="{{ path('app_wine_show', {'id': wine.id}) }}">show</a>
-                   {% if app.user %} <a href="{{ path('app_wine_edit', {'id': wine.id}) }}">edit</a> {% endif %}
+                   {% if app.user and wine.isowner %} <a href="{{ path('app_wine_edit', {'id': wine.id}) }}">edit</a> {% endif %}
                 </td>
             </div>
         {% else %}
         {% endfor %}
                 </div>
-    {% if app.user %}
-    <a href="{{ path('app_wine_new') }}">Create new</a>
-    {% endif %}
 </div>
 {% endblock %}
