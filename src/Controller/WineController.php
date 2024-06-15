@@ -49,30 +49,6 @@ class WineController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_wine_show', methods: ['GET'])]
-    public function show(Wine $wine, UrlGeneratorInterface $urlGenerator): Response
-    {
-        $qrCodeUrl = 'http://127.0.0.1:3000/qr/code';
-        $wineUrl = $urlGenerator->generate('app_wine_show', ['id' => $wine->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
-
-        $response = $this->forward('App\Controller\QrCodeController::createQrCode', [
-            'url' => $wineUrl,
-        ]);
-        $qrCode = $response->getContent();
-        if($this->getUser())
-            $isFavorite = $this->getUser()->isWineFavoritedByUser($wine);
-        $winery = $wine->getWinery();
-        $isowner = $wine->getOwner() === $this->getUser();
-
-        return $this->render('wine/show.html.twig', [
-            'wine' => $wine,
-            'qrCode' => $qrCode,
-            'isFavorite' => $this->getUser() ? $isFavorite : false,
-            'winery' => $winery,
-            'isowner' => $isowner,
-        ]);
-    }
-
     #[Route('/new', name: 'app_wine_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, UploaderHelper $uploaderHelper): Response
     {
@@ -98,6 +74,31 @@ class WineController extends AbstractController
         return $this->render('wine/new.html.twig', [
             'wine' => $wine,
             'form' => $form,
+        ]);
+    }
+
+
+    #[Route('/{id}', name: 'app_wine_show', methods: ['GET'])]
+    public function show(Wine $wine, UrlGeneratorInterface $urlGenerator): Response
+    {
+        $qrCodeUrl = 'http://127.0.0.1:3000/qr/code';
+        $wineUrl = $urlGenerator->generate('app_wine_show', ['id' => $wine->getId()], UrlGeneratorInterface::ABSOLUTE_URL);
+
+        $response = $this->forward('App\Controller\QrCodeController::createQrCode', [
+            'url' => $wineUrl,
+        ]);
+        $qrCode = $response->getContent();
+        if($this->getUser())
+            $isFavorite = $this->getUser()->isWineFavoritedByUser($wine);
+        $winery = $wine->getWinery();
+        $isowner = $wine->getOwner() === $this->getUser();
+
+        return $this->render('wine/show.html.twig', [
+            'wine' => $wine,
+            'qrCode' => $qrCode,
+            'isFavorite' => $this->getUser() ? $isFavorite : false,
+            'winery' => $winery,
+            'isowner' => $isowner,
         ]);
     }
 

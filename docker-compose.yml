@@ -23,7 +23,7 @@ services:
     ports:
       - 9090:80
     environment:
-      PMA_HOST: mysql
+      PMA_HOST: db
       PMA_PORT: 3306
   web:
     build: .
@@ -37,6 +37,6 @@ services:
       MYSQL_USER: wordpress
       MYSQL_PASSWORD: wordpress
       MYSQL_ROOT_USER: root
-      MYSQL_ROOT_PASSWORD: MYSQL_PASSWORD
+      MYSQL_ROOT_PASSWORD: password
 volumes:
   db_data:
